@@ -1,11 +1,10 @@
-version: '3.9'
-
+version: "3.9"
 services:
   web:
     build: .
-    container_name: django_app
-    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app  # Bind mount the current directory to /app in the container
     ports:
       - "8000:8000"
-    volumes:
-      - .:/app
+    command: python django_web_app/manage.py runserver 0.0.0.0:8000
+

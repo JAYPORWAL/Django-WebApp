@@ -1,20 +1,18 @@
-# Base image
+# Use official Python image from the Docker registry
 FROM python:3.10-slim
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Set working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# Install dependencies
-COPY requirements.txt .
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+# Copy the requirements file and install dependencies
+COPY requirements.txt /app/
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Copy project files
-COPY . .
+# Copy the entire Django project directory into the container
+COPY . /app/
 
-# Run server (override this in docker-compose)
+# Expose the port for the Django app (default is 8000)
+EXPOSE 8000
+
+# Run Django using the manage.py command when the container starts
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
